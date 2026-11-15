@@ -260,7 +260,7 @@ function score(p){const a=p.v.reduce((s,c)=>s+val(p,c.vp)*(c.dbl?2:1),0),b=p.cr.
 const ch=c=>c.d&&IMG[c.d+'|'+c.n]?`<div class=c style="padding:2px"><img src="${IMG[c.d+'|'+c.n]}" width=140 title="${c.n}" style="display:block;border-radius:6px"></div>`:`<div class="c"><b>${c.n}</b>${c.t}${c.sub?' · '+c.sub:''}<br>Cost ${c.cost}${c.bon.length?' · '+c.bon.join(','):''}<br>VP: ${c.vp||'—'}${c.eff?'<br>Effect: '+c.eff:''}</div>`;
 function R(){const A=document.getElementById('app');
  if(!S){A.innerHTML=`<h2>Ragnarok – prototype</h2><p>Your god: <select id=d>${Object.keys(DK).map(d=>`<option>${d}</option>`)}</select> AI opponents: <select id=n><option>1<option selected>2<option>3</select> <button onclick="newGame(d.value,+n.value);R()">Play</button></p>`;return}
- const me=S.ps[0];let h=`<div class=row><b>Round ${S.rd}/7</b><span class=m>Priority: ${S.ps[S.prio].n}</span><span class=m>Worlds deck: <img src="${IMG['W|back']}" width=26 style="vertical-align:middle;border-radius:3px"> ×${S.ws.length}</span>${S._askHome?`<span style="background:var(--card);border:1px solid var(--ac);border-radius:6px;padding:2px 6px">Leave this game? It won’t be saved. <button onclick="spectStop&&spectStop();S=null;R();scrollTo(0,0)">Yes, go home</button><button onclick="S._askHome=0;R()">Keep playing</button></span>`:`<button onclick="${S.phase=='end'?'S=null':'S._askHome=1'};R();scrollTo(0,0)">⌂ Home</button>`}</div>`;
+ const me=S.ps[0];let h=`<div class=row><b>Round ${S.rd}/7</b>${typeof undoBtn=='function'?undoBtn():''}${S._askHome?`<span style="background:var(--card);border:1px solid var(--ac);border-radius:6px;padding:2px 6px">Leave this game? It won’t be saved. <button onclick="spectStop&&spectStop();S=null;R();scrollTo(0,0)">Yes, go home</button><button onclick="S._askHome=0;R()">Keep playing</button></span>`:`<button onclick="${S.phase=='end'?'S=null':'S._askHome=1'};R();scrollTo(0,0)">⌂ Home</button>`}</div>`;
  {const bd=S.rows.map(r=>`<div class=row>${[...r.L].reverse().map(c=>ch2(c)).join('')}${wdb(r.w)}${r.R.map(c=>ch2(c)).join('')}</div>`).join('');h+=(S.lk&&typeof lokiPanel=='function')?`<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start"><div class="lkboard" style="flex:0 0 auto">${bd}</div>${lokiPanel()}</div>`:bd}
  if(S.free.length)h+=freePanel();
  h+=S.ps.map(p=>{const s=score(p);return`<div class=p>${IMG[p.n+'|S']?`<img src="${IMG[p.n+'|S']}" height=70 style="float:right;border-radius:4px">`:''}<b>${p.n}${p.human?' (you)':''}</b> · Heroes ${p.h} · VP ${s.t} <span class=m>(cards ${s.a}, creatures ${s.b}, worlds ${s.w}, scoring ${s.d})</span><br><span class=m>Valhalla: ${p.v.map(c=>c.n).join(', ')||'—'}<br>Creatures: ${p.cr.map(c=>c.n).join(', ')||'—'} · Worlds: ${p.ws.map(w=>w.n).join(', ')||'—'} · Banished: ${p.ban.length}${p.lk&&p.lk.length?' · Loki defeated: '+p.lk.map(c=>c.n).join(', '):''}</span></div>`}).join('');
@@ -809,6 +809,18 @@ function turnHTML_fr(){const st=(n,t,b)=>`<div class=step><div class=n>${n}</div
  <tr><th>🐍 Loki</th><td>1 au début, +1 par Monde libéré. 4 en jeu = tout le monde perd. Instantané / Permanent / Quand il est vaincu.</td></tr></table></div>`}
 </script>
 <script>
+// ===== Annuler le dernier clic du joueur =====
+let UNDO=null,UNDO_PEND=null,UNDO_SIG=null;
+const undoSig=()=>{try{return JSON.stringify(S)}catch(e){return Math.random()+''}};
+function undoBtn(){return UNDO&&S&&S.phase!='end'&&!S.spect?`<button onclick="undoLast()" title="Undo your last click" style="background:var(--mu)">↩ Undo</button>`:''}
+function undoLast(){if(!UNDO)return;S=UNDO;UNDO=null;R()}
+(()=>{const skip=/undoLast|_askHome|S=null|openStats|copySummary|replay|newGame|spect|VIEW|setLang|importGames|resetStats/;
+ document.addEventListener('click',e=>{const el=e.target.closest&&e.target.closest('[onclick]');if(!el||!S||S.spect||S.phase=='end')return;const oc=el.getAttribute('onclick')||'';if(skip.test(oc)||el.disabled)return;
+  try{UNDO_PEND=structuredClone(S);UNDO_SIG=undoSig()}catch(x){UNDO_PEND=null;return}
+  setTimeout(()=>{if(!UNDO_PEND)return;if(S&&undoSig()!==UNDO_SIG){UNDO=UNDO_PEND;R()}UNDO_PEND=null},0)},true);
+ const NG=newGame;newGame=function(){UNDO=null;return NG.apply(this,arguments)}})();
+</script>
+<script>
 // ===== Langue : anglais / français (traduction de l'interface à l'affichage) =====
 var LANG='en';try{LANG=localStorage.getItem('rg_lang')||'en'}catch(e){}
 function setLang(l){LANG=l;try{localStorage.setItem('rg_lang',l)}catch(e){}langCss();R()}
@@ -820,7 +832,7 @@ const FR_EXACT={
 'Face the creatures · Save the Worlds · Earn your place in Valhalla':'Affronte les créatures · Sauve les Mondes · Gagne ta place au Valhalla',
 'A Loki card appears at the start and each time a World is freed. 4 Loki in play = everyone loses.':'Une carte Loki apparaît au début puis à chaque Monde libéré. 4 Loki en jeu = tout le monde perd.',
 'Allfather':'Père de tous','Queen of the Ases':'Reine des Ases','Chief of the Valkyries':'Cheffe des Valkyries','God of Light':'Dieu de la Lumière','God of Thunder':'Dieu du Tonnerre','God of War':'Dieu de la Guerre','Guardian of the Worlds':'Gardien des Mondes','God of Prosperity':'Dieu de la Prospérité',
-'⌂ Home':'⌂ Accueil','← Home':'← Accueil','📜 Full rules':'📜 Règles complètes','Worlds deck:':'Pioche des Mondes :','Keep playing':'Continuer la partie','Yes, go home':'Oui, retour à l’accueil','Leave this game? It won’t be saved.':'Quitter la partie ? Elle ne sera pas enregistrée.',
+'⌂ Home':'⌂ Accueil','↩ Undo':'↩ Annuler','Undo your last click':'Annuler ton dernier clic','← Home':'← Accueil','📜 Full rules':'📜 Règles complètes','Worlds deck:':'Pioche des Mondes :','Keep playing':'Continuer la partie','Yes, go home':'Oui, retour à l’accueil','Leave this game? It won’t be saved.':'Quitter la partie ? Elle ne sera pas enregistrée.',
 'Choose the card to set aside':'Choisis la carte à mettre de côté','(Valhalla or banished); the other 3 will be played.':'(Valhalla ou bannie) ; les 3 autres seront jouées.','(Mulligan already used)':'(Mulligan déjà utilisé)','🔄 Mulligan (1× per game)':'🔄 Mulligan (1× par partie)',
 'Discard your 4 cards and draw 4 new ones — once per game':'Défausse tes 4 cartes et pioches-en 4 nouvelles — une fois par partie',
 "Your god card is always played: it can't be set aside":'Ta carte dieu est toujours jouée : elle ne peut pas être mise de côté','Always played':'Toujours jouée',
