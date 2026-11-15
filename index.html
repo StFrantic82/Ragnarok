@@ -832,13 +832,19 @@ Thor:{en:['Thunder','Played, he gives +2 Heroes, and this round the Strength of 
  fr:['Tonnerre','Joué, il donne +2 Héros, et cette manche la Force des Créatures Élites est réduite de 1 par Équipement que tu possèdes.','3 PV par Créature Élite vaincue.','Accumule les Équipements, puis joue Thor pour abattre à bas prix les grosses Créatures Élites : elles rapportent beaucoup seules, et 3 de plus chacune sur ta carte de score.']},
 Tyr:{en:['War','Played, he gives +2 Heroes, and this round each Creature’s Strength is reduced by 1 per Creature of the same type you have already defeated.','2 VP per Creature of your most numerous type (Giant, Beast or Undead).','Specialise in one Creature type: the more you defeat, the cheaper the next ones, and your scoring card follows.'],
  fr:['Guerre','Joué, il donne +2 Héros, et cette manche la Force de chaque Créature est réduite de 1 par Créature du même type que tu as déjà vaincue.','2 PV par Créature de ton type le plus nombreux (Géant, Bête ou Mort-vivant).','Spécialise-toi dans un type de Créature : plus tu en bats, moins les suivantes coûtent, et ta carte de score suit.']}};
+
+const ICOKW=[['h',/\b(Heroes|Hero)\b|Héros/],['Glory',/\bGlory\b|Gloire/],['Character',/\bCharacters?\b|Personnages?/],['Item',/\bItems?\b|Objets?/],['Event',/\bEvents?\b|Événements?/],['Banished',/\bbanished\b|bannies?\b/],
+ ['Giant',/\bGiants?\b|Géants?/],['Beast',/\bBeasts?\b|Bêtes?/],['Undead',/\bUndead\b|Morts?-vivants?/],['Elite',/\bElites?\b|Élites?/],['Equipment',/\bEquipment\b|Équipements?/],['World',/\bWorlds?\b|Mondes?/],['Atk',/\bAttack\b|Attaque/],['C3',/\bCreatures?\b|Créatures?/]];
+function addIcons(t){let out=t;ICOKW.forEach(([k,rx])=>{const ico=k=='C3'?tagIco('Giant')+tagIco('Beast')+tagIco('Undead'):tagIco(k);if(out.includes(SUBIMG[k=='C3'?'Giant':k]))return;
+ const r=new RegExp(rx.source,'g');let m;while((m=r.exec(out))){const pre=out.slice(0,m.index);if(pre.lastIndexOf('<')>pre.lastIndexOf('>'))continue;if(out.slice(m.index+m[0].length).startsWith(' <img'))break;
+  out=out.slice(0,m.index+m[0].length)+' '+ico+out.slice(m.index+m[0].length);break}});return out}
 function godInfo(g){const I=GODINFO[g];if(!I)return'';const fr=typeof LANG!='undefined'&&LANG=='fr',t=fr?I.fr:I.en,d=DK[g];
  let ty={C:0,I:0,E:0};try{d.c.split('\n').slice(1).forEach(l=>{const k=l.split('|')[1];if(ty[k]!=null)ty[k]++})}catch(e){}
  const K=fr?' :':':',L=fr?{p:'Pouvoir',s:'Carte de score',st:'Départ',h:'Héros',dk:'Deck',tip:'Conseil',c:'Personnages',i:'Objets',e:'Événements'}:{p:'Power',s:'Scoring card',st:'Start',h:'Heroes',dk:'Deck',tip:'Tip',c:'Characters',i:'Items',e:'Events'};
  return`<div class="hm-info notr" style="margin:14px 0 4px;background:var(--card);border:1px solid var(--bd);border-left:5px solid var(--ac);border-radius:12px;padding:12px 16px;line-height:1.45">
  <div style="display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:6px"><b style="font:700 20px Cinzel,Georgia,serif">${g}</b><i style="opacity:.8">${fr&&typeof FR_EXACT!='undefined'?FR_EXACT[GODNICK[g]]||GODNICK[g]:GODNICK[g]}</i>
- <span class=m>${L.st}${K} ${d.h} ${L.h} · ${L.dk}${K} ${ty.C} ${L.c}, ${ty.I} ${L.i}, ${ty.E} ${L.e}</span></div>
- <div><b>${L.p} — ${t[0]}${K}</b> ${t[1]}</div><div><b>${L.s}${K}</b> ${t[2]}</div><div style="margin-top:4px"><b>💡 ${L.tip}${K}</b> ${t[3]}</div></div>`}
+ <span class=m>${addIcons(`${L.st}${K} ${d.h} ${L.h} · ${L.dk}${K} ${ty.C} ${L.c}, ${ty.I} ${L.i}, ${ty.E} ${L.e}`)}</span></div>
+ <div><b>${L.p} — ${t[0]}${K}</b> ${addIcons(t[1])}</div><div><b>${L.s}${K}</b> ${addIcons(t[2])}</div><div style="margin-top:4px"><b>💡 ${L.tip}${K}</b> ${addIcons(t[3])}</div></div>`}
 </script>
 <script>
 // ===== Annuler le dernier clic du joueur =====
