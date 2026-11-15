@@ -836,7 +836,7 @@ Tyr:{en:['War','Played, he gives +2 Heroes, and this round each Creature’s Str
 const ICOKW=[['h',/\b(Heroes|Hero)\b|Héros/],['Glory',/\bGlory\b|Gloire/],['Character',/\bCharacters?\b|Personnages?/],['Item',/\bItems?\b|Objets?/],['Event',/\bEvents?\b|Événements?/],['Banished',/\bbanished\b|bannies?\b/],
  ['Giant',/\bGiants?\b|Géants?/],['Beast',/\bBeasts?\b|Bêtes?/],['Undead',/\bUndead\b|Morts?-vivants?/],['Elite',/\bElites?\b|Élites?/],['Equipment',/\bEquipment\b|Équipements?/],['World',/\bWorlds?\b|Mondes?/],['Atk',/\bAttack\b|Attaque/],['C3',/\bCreatures?\b|Créatures?/]];
 function addIcons(t){let out=t;ICOKW.forEach(([k,rx])=>{const ico=k=='C3'?tagIco('Giant')+tagIco('Beast')+tagIco('Undead'):tagIco(k);if(out.includes(SUBIMG[k=='C3'?'Giant':k]))return;
- const r=new RegExp(rx.source,'g');let m;while((m=r.exec(out))){const pre=out.slice(0,m.index);if(pre.lastIndexOf('<')>pre.lastIndexOf('>'))continue;if(out.slice(m.index+m[0].length).startsWith(' <img'))break;
+ const r=new RegExp(rx.source,'g');let m;while((m=r.exec(out))){const pre=out.slice(0,m.index);if(pre.lastIndexOf('<')>pre.lastIndexOf('>'))continue;if(k=='C3'&&/[EÉ]lite/.test(out.slice(Math.max(0,m.index-25),m.index+m[0].length+25).replace(/<[^>]*>/g,'')))continue;if(out.slice(m.index+m[0].length).startsWith(' <img'))break;
   out=out.slice(0,m.index+m[0].length)+' '+ico+out.slice(m.index+m[0].length);break}});return out}
 function godInfo(g){const I=GODINFO[g];if(!I)return'';const fr=typeof LANG!='undefined'&&LANG=='fr',t=fr?I.fr:I.en,d=DK[g];
  let ty={C:0,I:0,E:0};try{d.c.split('\n').slice(1).forEach(l=>{const k=l.split('|')[1];if(ty[k]!=null)ty[k]++})}catch(e){}
