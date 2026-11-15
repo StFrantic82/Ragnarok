@@ -11,7 +11,7 @@ button{background:var(--ac);color:var(--bg);border:0;border-radius:6px;padding:6
 const TN={C:'Character',I:'Item',E:'Event',G:'Giant',B:'Beast',U:'Undead'},SUBS=['Animal','Warrior','Glory','Artefact','Destiny','Equipment'];
 // nom|type|sous-type|coût|bonus|VP|effet  (formules: "n", "m/clé", "base/m/clé")
 const DK={
-Odin:{h:3,s:'4/World',c:`Odin|G||0|||eye
+Odin:{h:4,s:'4/World',c:`Odin|G||0|||eye
 Geri & Freki|C|Animal|3|Beast|2/Beast|
 Sleipnir|C|Animal|2|Glory|2/Artefact|2/-1/Animal
 Huginn & Muninn|C|Animal|2|Undead|5|1
@@ -312,7 +312,7 @@ function odinChoose(j){const me=S.ps[0];odinEye(me,me.hand.filter(c=>c.t!='God')
 function resolveHand(p){p.prosp=false;p.eyeDone=false;p.lumUsed=false;p.acted=false;
  p.pend=p.human&&p.ban.length&&p.hand.some(c=>c.eff=='frigg')?[...p.hand]:null;p.hand.forEach(c=>{if(c.t=='God'){p.h+=c.eff=='frigg'?0:2;p.g=c.eff;
    if(c.eff=='freyja'){const n=cnt(p,'Character');p.h-=1;if(n>=1)p.h++;if(n>=2)p.atk++;if(n>=3)p.unl++}
-   if(c.eff=='heim'){p.h-=1;p.trb++}if(c.eff=='eye')p.h-=2;if(c.eff=='freyr'){p.h-=(globalThis.FRB??1);p.prosp=true}}
+   if(c.eff=='heim'){p.h-=1;p.trb++}if(c.eff=='eye')p.h-=2-(globalThis.ODH||0);if(c.eff=='freyr'){p.h-=(globalThis.FRB??1);p.prosp=true}}
   else if(!p.pend){p.h+=Math.max(0,val(p,c.eff));if(c.eff=='Atk')p.atk++;if(c.eff=='Unl')p.unl++}});
  p.disc.push(...p.hand);p.hand=[]}
 function friggStep(p){if(p.g!='frigg')return;const bb=p.ban.length?p.ban.reduce((a,b)=>lv(p,b)>lv(p,a)?b:a):null;
@@ -339,7 +339,7 @@ function kpref(cn){const m=AIM.kills[cn];if(!m)return 0;return ((m.k+1)/(m.av+2)
 const hasLum=p=>p.v.some(c=>c.bon.includes('Lum'));
 function lumAvail(p){return hasLum(p)&&!p.lumUsed&&!p.acted&&cnt(p,'Glory')>=1}
 function lumOk(p,c){const g=cnt(p,'Glory');return lumAvail(p)&&(c.e?g>=5:g>=3)}
-function lumHeroes(p){if(!lumAvail(p))return;p.h+=2;p.lumUsed=true;S.lumMode=0;log(p.n+' uses Luminous: +2 Heroes')}
+var LUMH=2;function lumHeroes(p){if(!lumAvail(p))return;p.h+=LUMH;p.lumUsed=true;S.lumMode=0;log(p.n+' uses Luminous: +'+LUMH+' Heroes')}
 function lumKill(p,o){if(!o||!lumOk(p,o.c))return;p.h+=crCost(p,o.c);p.lumUsed=true;S.lumMode=0;log(p.n+' uses Luminous: defeats '+o.c.n+' for free');p._lk=1;hit(p,o);p._lk=0}
 function lumClick(i){lumKill(S.ps[0],acc(S.ps[0])[i]);R()}
 function lumPanel(me){if(!lumAvail(me))return hasLum(me)&&me.lumUsed?'<p class=m>☀ Luminous already used this turn.</p>':hasLum(me)&&me.acted&&cnt(me,'Glory')>=1?'<p class=m>☀ Luminous is no longer available this turn (it must be used before fighting or protecting a World).</p>':'';const g=cnt(me,'Glory');
@@ -700,7 +700,7 @@ function rulesHTML(){return`<div class=rl><h2>📜 Ragnarök — Full rules</h2>
 <div class=box><b>Goal.</b> As a god of Asgard, you face the Creatures of Ragnarök for 7 rounds. Send cards to Valhalla, defeat Creatures and protect the Worlds to score the most Victory Points (VP). Heroes are the currency of the game: you earn them with your cards and spend them to do everything else.</div>
 <h3>1. Setup</h3><ul>
 <li>Each player chooses a god and takes its 13-card deck (the god card + 12 cards) and its scoring card. Shuffle your deck and draw <b>4 cards</b>.</li>
-<li>Each player starts with the number of Heroes shown on their scoring card (Baldr 5, Freyja 4, Tyr 4, Odin 3, Freyr 3, Frigg 2, Heimdall 2, Thor 2).</li>
+<li>Each player starts with the number of Heroes shown on their scoring card (Baldr 5, Freyja 4, Odin 4, Tyr 4, Freyr 3, Frigg 2, Heimdall 2, Thor 2).</li>
 <li>Shuffle the Creatures and the Worlds. Make <b>3 rows</b>: a World in the middle with <b>2 Creatures on each side</b>.</li>
 <li><b>Frigg</b> sets up differently: draw 2 cards (not Frigg), banish one (+2 Heroes), shuffle the other back into the deck, then draw 4 cards.</li></ul>
 <h3>2. The cards</h3><ul>
@@ -758,7 +758,7 @@ function rulesHTML_fr(){return`<div class="rl notr"><h2>📜 Ragnarök — Règl
 <div class=box><b>But du jeu.</b> Tu incarnes un dieu d’Asgard et tu affrontes les Créatures du Ragnarök pendant 7 manches. Envoie des cartes au Valhalla, bats des Créatures et protège les Mondes pour marquer le plus de Points de Victoire (PV). Les Héros sont la monnaie du jeu : tu les gagnes avec tes cartes et tu les dépenses pour tout le reste.</div>
 <h3>1. Mise en place</h3><ul>
 <li>Chaque joueur choisit un dieu et prend son deck de 13 cartes (la carte dieu + 12 cartes) et sa carte de score. Mélange ton deck et pioche <b>4 cartes</b>.</li>
-<li>Chaque joueur commence avec le nombre de Héros indiqué sur sa carte de score (Baldr 5, Freyja 4, Tyr 4, Odin 3, Freyr 3, Frigg 2, Heimdall 2, Thor 2).</li>
+<li>Chaque joueur commence avec le nombre de Héros indiqué sur sa carte de score (Baldr 5, Freyja 4, Odin 4, Tyr 4, Freyr 3, Frigg 2, Heimdall 2, Thor 2).</li>
 <li>Mélange les Créatures et les Mondes. Forme <b>3 rangées</b> : un Monde au centre avec <b>2 Créatures de chaque côté</b>.</li>
 <li><b>Frigg</b> se prépare autrement : pioche 2 cartes (pas Frigg), bannis-en une (+2 Héros), remélange l’autre dans le deck, puis pioche 4 cartes.</li></ul>
 <h3>2. Les cartes</h3><ul>
