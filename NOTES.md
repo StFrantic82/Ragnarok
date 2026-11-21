@@ -146,7 +146,7 @@ Liste des 15 Loki en annexe B.
 
 **Décisions prises et pistes en attente :**
 - **Odin :** départ relevé à 4 Héros (validé, carte de score mise à jour par l'auteur).
-- **Baldr :** départ baissé à 4 Héros le 21 novembre (validé). Simulations du 21 novembre, Baldr dans chaque partie à 3 contre des dieux au hasard : à 5 Héros 89,2 PV et 38 % de victoires (500 parties) ; à 4 Héros 85,0 PV et 32,4 % (1 500 parties), pour 85,4 PV chez les adversaires. Autres pistes testées (500 parties) : Lumineux +1 Héros 36 %, seuils de Lumineux à 4/6 Gloire 26 %, coût 7 au Valhalla 32 % (mais Baldr au Valhalla dans 53 % des parties au lieu de 71 %), carte de score à 4 PV par série 40 %. **Carte de score de Baldr à mettre à jour par l'auteur (4 Héros).**
+- **Baldr :** départ baissé à 4 Héros le 21 novembre (validé). Simulations du 21 novembre, Baldr dans chaque partie à 3 contre des dieux au hasard : à 5 Héros 89,2 PV et 38 % de victoires (500 parties) ; à 4 Héros 85,0 PV et 32,4 % (1 500 parties), pour 85,4 PV chez les adversaires. Autres pistes testées (500 parties) : Lumineux +1 Héros 36 %, seuils de Lumineux à 4/6 Gloire 26 %, coût 7 au Valhalla 32 % (mais Baldr au Valhalla dans 53 % des parties au lieu de 71 %), carte de score à 4 PV par série 40 %. Carte de score mise à jour par l'auteur (4 Héros).
 - **Heimdall :** l'auteur le juge correct, car il marque plus en le jouant lui-même.
 - **Pistes Loki non retenues pour l'instant :** The Deceiver limité à 1 Monde, The Mocker vers la défausse au lieu des cartes bannies.
 - **Sur les chiffres :** l'écart entre deux séries de 300 parties peut atteindre 5 PV pour un même dieu. Il faut au moins 300 parties par dieu pour conclure.
