@@ -90,7 +90,7 @@ L'app est un seul fichier HTML (`index.html`, à la racine du dépôt) assemblé
 | Freyja | 4 | +1 Héros, puis selon ses Personnages au Valhalla : 1+ → +1 Héros, 2+ → +1 Attaque, 3+ → Déverrouillage | 5 × série Géant + Bête + Mort-vivant | 6/4/2 |
 | Heimdall | 2 | +1 Héros. Cette manche, tout coût avec un tag −1. | 2 × tags différents | 3/4/5 |
 | Tyr | 4 | +2 Héros. −1 de Force par Créature du même type déjà vaincue. | 2 × type de Créature majoritaire | 2/4/6 |
-| Baldr | 5 | +2 Héros. Lumineux (Baldr au Valhalla, coût 6, 1 fois par tour, avant tout combat ou protection) : 1+ Gloire → +2 Héros, 3+ → Créature non Élite gratuite, 5+ → Élite aussi. | 5 × série Personnage + Objet + Événement | 2/5/5 |
+| Baldr | **4** (baissé de 5 le 21 novembre) | +2 Héros. Lumineux (Baldr au Valhalla, coût 6, 1 fois par tour, avant tout combat ou protection) : 1+ Gloire → +2 Héros, 3+ → Créature non Élite gratuite, 5+ → Élite aussi. | 5 × série Personnage + Objet + Événement | 2/5/5 |
 | Freyr | 3 | +1 Héros et Prospérité : placer jusqu'à 5 Héros sur la carte de score, récupérés en double à la fin de son tour (plus avec Cult of Uppsala). | 2 × Héros restants (max 6) | 6/3/3 |
 
 Le détail de toutes les cartes est en annexe A.
@@ -146,7 +146,7 @@ Liste des 15 Loki en annexe B.
 
 **Décisions prises et pistes en attente :**
 - **Odin :** départ relevé à 4 Héros (validé, carte de score mise à jour par l'auteur).
-- **Baldr :** jugé un peu fort. Pistes testées sans décision : départ à 4 Héros (34 % de victoires) ou Lumineux à +1 Héros (35 %).
+- **Baldr :** départ baissé à 4 Héros le 21 novembre (validé). Simulations du 21 novembre, Baldr dans chaque partie à 3 contre des dieux au hasard : à 5 Héros 89,2 PV et 38 % de victoires (500 parties) ; à 4 Héros 85,0 PV et 32,4 % (1 500 parties), pour 85,4 PV chez les adversaires. Autres pistes testées (500 parties) : Lumineux +1 Héros 36 %, seuils de Lumineux à 4/6 Gloire 26 %, coût 7 au Valhalla 32 % (mais Baldr au Valhalla dans 53 % des parties au lieu de 71 %), carte de score à 4 PV par série 40 %. **Carte de score de Baldr à mettre à jour par l'auteur (4 Héros).**
 - **Heimdall :** l'auteur le juge correct, car il marque plus en le jouant lui-même.
 - **Pistes Loki non retenues pour l'instant :** The Deceiver limité à 1 Monde, The Mocker vers la défausse au lieu des cartes bannies.
 - **Sur les chiffres :** l'écart entre deux séries de 300 parties peut atteindre 5 PV pour un même dieu. Il faut au moins 300 parties par dieu pour conclure.
@@ -278,7 +278,7 @@ Pact of Binding|E|Destiny|5||2/Event|0/1/diffcr
 Tyr's Oath|E|Destiny|3|Atk|3|3/-1/Artefact
 The Severed Hand|E|Destiny|2||3|
 
-Baldr (départ 5, score 5/CIE)
+Baldr (départ 4, score 5/CIE)
 Baldr|C|Warrior|6|Lum||2
 Höðr|C||3|Undead|5/Warrior|1/1/CIE
 Nanna|C|Glory|2|Dbl|2/CIE|3/-1/Warrior
