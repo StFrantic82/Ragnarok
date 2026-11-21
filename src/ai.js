@@ -96,7 +96,8 @@ function bestVal(p){const o=evalOptions(p,W(p),!p.w);return o.length?Math.max(..
 function aiMulligan(p){if(p.mull||p.legacy)return;const v0=bestVal(p);let sum=0,n=3;
  for(let k=0;k<n;k++){const st=clone(S);sum+=withS(st,()=>{const q=S.ps[p.i];q.disc.push(...q.hand);q.hand=[];q.deck=shuf(q.deck);draw(q);return bestVal(q)})}
  if(sum/n>v0+1.5)mulligan(p)}
-pick=function(i){const dec={};if(S.ps[0].human&&(S.ps[0].fsetup||needEye(S.ps[0])||!S.ps[0].hand[i]||S.ps[0].hand[i].t=='God'))return;S.ps.forEach(p=>{if(!p.human){aiMulligan(p);aiOdin(p)}});
+pick=function(i){const dec={};if(S.ps[0].human&&(S.ps[0].fsetup||needEye(S.ps[0])||!S.ps[0].hand[i]||S.ps[0].hand[i].t=='God'))return;if(S.mp){const me=S.ps[0];if(S.phase!='pick'||me.aside||!me.hand[i])return;me.aside=me.hand.splice(i,1)[0];S._dec={};if(S.ps.every(p=>p.aside))pickResolve();return}
+ S.ps.forEach(p=>{if(!p.human){aiMulligan(p);aiOdin(p)}});
  S.ps.forEach(p=>{if(p.human){p.aside=p.hand.splice(i,1)[0]}else if(p.legacy){p.aside=p.hand.splice(legacyChoose(p),1)[0]}else{const d=aiDecide(p);dec[p.i]=d.pl;p.aside=p.hand.splice(d.i,1)[0]}});
  S._dec=dec;
  pickResolve()};

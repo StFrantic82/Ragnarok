@@ -50,7 +50,8 @@ L'app est un seul fichier HTML (`index.html`, à la racine du dépôt) assemblé
 9. `undo.js` : bouton Annuler le dernier clic.
 10. `tutorial.js` : tutoriel guidé avec Thor.
 11. `sim.js` : simulateur IA contre IA (statistiques par dieu et matchups).
-12. `i18n.js` : traduction FR de l'interface à l'affichage (dictionnaire exact et motifs), choix de langue mémorisé.
+12. `mp.js` : multijoueur en ligne (voir section 5).
+13. `i18n.js` : traduction FR de l'interface à l'affichage (dictionnaire exact et motifs), choix de langue mémorisé.
 
 **Pour les simulations hors navigateur :** `python3 src/mkengine.py`, puis par exemple `node src/sim2.js 300 3`. `mkengine.py` crée `engine.js` (base, puis ai, loki et bragi) pour Node. `bench.js` expose `play()`, et `sim2.js`, `simL.js`, `simB.js`, `simv.js` servent aux statistiques.
 
@@ -116,6 +117,11 @@ Liste des 15 Loki en annexe B.
 - **Fin de partie :** enregistrement (version Claude), « Copier le résumé de la partie », « Rejouer avec le même dieu ».
 - **Statistiques (version Claude) :** tableau par dieu (cliquer pour voir le % de chaque carte au Valhalla), filtre humains/tous, modes Jeu de base / Avec Loki / Tout, import des résumés envoyés par les testeurs, réinitialisation.
 - **Simulateur :** parties au hasard (50 à 1 000 parties, 2 à 4 joueurs, Loki oui/non) ou matchups 1 contre 1 (tableau croisé). Rien n'est enregistré.
+- **Multijoueur en ligne (`mp.js`, 21 novembre) :** bouton « 🌐 Multijoueur en ligne » sur l'accueil. Un joueur crée un salon (code de 4 lettres, lien `#join-CODE`), 2 à 4 humains sans IA, chacun un dieu différent, Loki au choix de l'hôte.
+  - Réseau pair-à-pair avec PeerJS 1.5.4 (chargé depuis unpkg, sinon jsdelivr), identifiant `ragnarok-mp-CODE`. Fonctionne uniquement sur GitHub Pages (et localhost) : l'artefact Claude bloque WebRTC et affiche un lien vers GitHub Pages.
+  - L'hôte fait tourner la seule vraie partie (`S`) ; les autres envoient leurs clics (`MP_FNS`, arguments encodés par chemin dans `S`) et reçoivent une vue (`mpView`) où ils sont `ps[0]` (rotation de `S.ps`), avec les mains et pioches adverses masquées. `mpGuard` refuse toute action hors de son tour.
+  - Choix simultanés : chacun met sa carte de côté (`S.mp` dans `pick` d'ai.js), puis place ; le combat se fait joueur par joueur dans l'ordre de priorité. Reconnexion avec le même onglet (jeton en sessionStorage). Pas d'enregistrement en base, pas d'Annuler.
+  - Test local sans Internet : ajouter `?mptest=1` à l'URL (canal BroadcastChannel entre onglets du même navigateur).
 
 ---
 

@@ -50,9 +50,9 @@ function lokiRedraw(p){p.redraw=0;p.dsc=0;p.disc.push(...p.hand);p.hand=[];draw(
 function lokiVban(p,k,gain){if(!p.v.length)return;p.vb=(p.vb||0)+k;p.vbg=gain;if(!p.human||S.spect)lokiVbanAI(p)}
 function lokiVbanDo(p,c){if(!(p.vb>0)||!p.v.includes(c))return;p.v.splice(p.v.indexOf(c),1);p.ban.push(c);p.vb--;if(p.vbg)p.h+=p.vbg;log(p.n+' moves '+c.n+' from Valhalla to banished (Loki)'+(p.vbg?' +'+p.vbg+' Heroes':''));if(!p.v.length)p.vb=0}
 function lokiVbanAI(p){while(p.vb>0&&p.v.length){const c=p.v.reduce((a,b)=>{const va=(withS(S,()=>{const i=p.v.indexOf(a);p.v.splice(i,1);const t=score(p).t;p.v.splice(i,0,a);return t})),vb=(()=>{const i=p.v.indexOf(b);p.v.splice(i,1);const t=score(p).t;p.v.splice(i,0,b);return t})();return vb>va?b:a});lokiVbanDo(p,c)}}
-function lokiEnd(){S.phase='end';log('🐍 '+LOKI_MAX+' Loki cards are in play: Loki triumphs, everyone loses!');if(!S.saved&&!S.spect&&typeof saveGame=='function')saveGame()}
+function lokiEnd(){S.phase='end';log('🐍 '+LOKI_MAX+' Loki cards are in play: Loki triumphs, everyone loses!');if(!S.saved&&!S.spect&&!S.mp&&typeof saveGame=='function')saveGame()}
 (()=>{
- const NG=newGame;newGame=function(a,b){NG(a,b);if(LOKI_ON){S.lk={L:[],R:[]};S.lkDeck=shuf(LOKI_DATA.split('\n').map(l=>mkLoki(l.split('|'))));lokiReveal(1)}};
+ const NG=newGame;newGame=function(a,b,c){NG(a,b,c);if(LOKI_ON){S.lk={L:[],R:[]};S.lkDeck=shuf(LOKI_DATA.split('\n').map(l=>mkLoki(l.split('|'))));lokiReveal(1)}};
  const CC=cc;cc=function(p,base,at,type){let r=CC(p,base,at,type);if(!S||!S.lk)return r;
   if(type=='cr'){if(at[0]=='Undead'&&lkOn('U'))r++;if(at[0]=='Beast'&&lkOn('B'))r++;if(at[0]=='Giant'&&lkOn('G'))r++}
   return r};

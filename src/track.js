@@ -13,10 +13,10 @@ function learnFromGame(g,rank,np){const r=rank==1?1:rank==2&&np>2?0.4:0.15,eta=0
  AIM.games++;
  if(DB)DB.doc('ai/model').set({v:2,w:AIW,cards:AIM.cards,kills:AIM.kills,games:AIM.games,ts:Date.now()}).catch(()=>{})}
 const cst=(n,k)=>{S.cstat=S.cstat||{};const o=S.cstat[n]=S.cstat[n]||{seen:0,aside:0,v:0,b:0};o[k]++};
-function onHumanFight(p){try{S._av=acc(p).filter(o=>crCost(p,o.c)<=p.h).map(o=>o.c.n);S._cr0=p.cr.length}catch(e){}try{const st=clone(S);withS(st,()=>{const q=S.ps[p.i];q.human=false;S._fb=null;const pl=planCombat(q,nAtk(q),AIW,6);st._fb=pl.f});S._fb=st._fb}catch(e){S.lerr=String(e&&e.stack||e).slice(0,300)}}
+function onHumanFight(p){if(S.mp)return;try{S._av=acc(p).filter(o=>crCost(p,o.c)<=p.h).map(o=>o.c.n);S._cr0=p.cr.length}catch(e){}try{const st=clone(S);withS(st,()=>{const q=S.ps[p.i];q.human=false;S._fb=null;const pl=planCombat(q,nAtk(q),AIW,6);st._fb=pl.f});S._fb=st._fb}catch(e){S.lerr=String(e&&e.stack||e).slice(0,300)}}
 const ev=o=>{if(S&&S.ev)S.ev.push(Object.assign({rd:S.rd},o))};
-const _newGame=newGame;newGame=function(me,nAI){_newGame(me,nAI);S.ps.forEach(p=>p.h0=p.h);S.grad=[];S.cstat={};S.kstat={};S.ev=[];S.snap=[];S.t0=Date.now();S.gid=Date.now().toString(36)+Math.random().toString(36).slice(2,7);S.saved=null};
-const _pick=pick;pick=function(i){const before=S.ps.map(p=>[...p.hand]);if(!S.spect){const me=S.ps[0];try{me.hand.forEach((c,j)=>{cst(c.n,'seen');if(j==i)cst(c.n,'aside')})}catch(e){S.lerr=String(e&&e.stack||e).slice(0,300)}try{S._ho=evalOptions(me,AIW,false);S._hi=i}catch(e){S._ho=null;S.lerr=String(e&&e.stack||e).slice(0,300)}}_pick(i);
+const _newGame=newGame;newGame=function(me,nAI,fixed){_newGame(me,nAI,fixed);S.ps.forEach(p=>p.h0=p.h);S.grad=[];S.cstat={};S.kstat={};S.ev=[];S.snap=[];S.t0=Date.now();S.gid=Date.now().toString(36)+Math.random().toString(36).slice(2,7);S.saved=null};
+const _pick=pick;pick=function(i){const before=S.ps.map(p=>[...p.hand]);if(!S.spect&&!S.mp){const me=S.ps[0];try{me.hand.forEach((c,j)=>{cst(c.n,'seen');if(j==i)cst(c.n,'aside')})}catch(e){S.lerr=String(e&&e.stack||e).slice(0,300)}try{S._ho=evalOptions(me,AIW,false);S._hi=i}catch(e){S._ho=null;S.lerr=String(e&&e.stack||e).slice(0,300)}}_pick(i);
  S.ps.forEach((p,j)=>{const a=p.aside||before[j].find(c=>!p.disc.includes(c));ev({a:'pick',p:p.n,c:a?a.n:null,played:before[j].filter(c=>c!==a).map(c=>c.n),h:p.h})})};
 const hplace=(p,pl,c)=>{if(!p.human||!S._ho)return;cst(c.n,pl);const ch=S._ho.find(o=>o.i==S._hi&&o.pl==pl),b=S._ho.reduce((a,o)=>o.v>a.v?o:a,S._ho[0]);if(ch&&b&&ch!==b)pushGrad(ch.f,b.f);S._ho=null};
 const _put=put;put=function(p){const c=p.aside,k=c?cardCost(p,c):0;_put(p);if(!p.aside&&c){ev({a:'valhalla',p:p.n,c:c.n,k,h:p.h});hplace(p,'v',c)}};
@@ -26,7 +26,7 @@ const _loom=loom;loom=function(p,c){_loom(p,c);ev({a:'loom',p:p.n,c:c.n})};
 const _fOrder=fOrder;fOrder=function(f){ev({a:'friggOrder',p:S.ps[0].n,o:f});_fOrder(f)};
 const _hit=hit;hit=function(p,o){const n=p.cr.length,k=crCost(p,o.c);_hit(p,o);if(p.cr.length>n)ev({a:'kill',p:p.n,c:o.c.n,t:o.c.t,e:o.c.e,k,h:p.h})};
 const _protect=protect;protect=function(p,w){const n=p.ws.length,k=wCost(p,w);_protect(p,w);if(p.ws.length>n)ev({a:'world',p:p.n,c:w.n,k,h:p.h})};
-const _endRound=endRound;endRound=function(){if(S&&S.snap)S.snap.push({rd:S.rd,ps:S.ps.map(p=>({n:p.n,h:p.h,vp:score(p).t}))});_endRound();if(S.phase=='end'&&!S.saved&&!S.spect)saveGame()};
+const _endRound=endRound;endRound=function(){if(S&&S.snap)S.snap.push({rd:S.rd,ps:S.ps.map(p=>({n:p.n,h:p.h,vp:score(p).t}))});_endRound();if(S.phase=='end'&&!S.saved&&!S.spect&&!S.mp)saveGame()};
 async function saveGame(){S.saved='saving';const g=S;
  const r=g.ps.map(p=>[p,score(p)]).sort((a,b)=>b[1].t-a[1].t||b[0].h-a[0].h);
  const doc={v:1,ts:Date.now(),dur:Math.round((Date.now()-g.t0)/1000),player:PSEUDO||null,god:g.ps[0].n,nAI:g.ps.length-1,
