@@ -34,7 +34,7 @@
 </style>
 <script>
 (()=>{try{const l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@900&family=Metamorphous&display=swap';document.head.appendChild(l)}catch(e){}})();
-const GODNICK={Odin:'Allfather',Frigg:'Queen of the Ases',Freyja:'Chief of the Valkyries',Baldr:'God of Light',Thor:'God of Thunder',Tyr:'God of War',Heimdall:'Guardian of the Worlds',Bragi:'God of Poetry',Freyr:'God of Prosperity'};
+const GODNICK={Odin:'Allfather',Frigg:'Queen of the Ases',Freyja:'Goddess of Love',Baldr:'God of Light',Thor:'God of Thunder',Tyr:'God of War',Heimdall:'Guardian of the Worlds',Bragi:'God of Poetry',Freyr:'God of Prosperity'};
 const HOME={god:'Odin',n:1};
 const FAN=['Fenrir|3/Character|','Surt|15|','Nidhogg|4/majsub|','Hel|11|Destiny','Jormungandr|2/Beast|'];
 function renderHome(A){const gods=Object.keys(DK).sort((a,b)=>a.localeCompare(b));

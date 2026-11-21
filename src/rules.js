@@ -29,7 +29,7 @@ function rulesHTML(){return`<div class=rl><h2>📜 Ragnarök — Full rules</h2>
 <p><b>Mulligan:</b> once per game, before choosing your card, you may discard your 4 cards and draw 4 new ones.</p>
 <h3>4. The gods</h3><table><tr><th>God</th><th>Power when played</th><th>Scoring card</th></tr>
 <tr><td><b>Baldr</b>, God of Light</td><td>+2 Heroes. <b>Luminous</b>: once Baldr is in your Valhalla, once per turn, before fighting or protecting: with 1+ Glory gain 2 Heroes; with 3+ Glory defeat an accessible non-Elite Creature for free; with 5+ Glory, an Elite one too.</td><td>5 × complete set Character + Item + Event</td></tr>
-<tr><td><b>Freyja</b>, Chief of the Valkyries</td><td>+1 Hero, and depending on your Characters in Valhalla: 1+ → +1 Hero, 2+ → +1 Attack, 3+ → unlock (attack any Creature).</td><td>5 × complete set Giant + Beast + Undead</td></tr>
+<tr><td><b>Freyja</b>, Goddess of Love</td><td>+1 Hero, and depending on your Characters in Valhalla: 1+ → +1 Hero, 2+ → +1 Attack, 3+ → unlock (attack any Creature).</td><td>5 × complete set Giant + Beast + Undead</td></tr>
 <tr><td><b>Freyr</b>, God of Prosperity</td><td>+1 Hero and <b>Prosperity</b>: place up to 5 Heroes on your scoring card; at the end of your turn, take them back and gain as many.</td><td>2 × Heroes left (max 6)</td></tr>
 <tr><td><b>Frigg</b>, Queen of the Ases</td><td><b>Loom</b>: gain 2 Heroes, or return one of your banished cards to your Valhalla for free.</td><td>4 × your most numerous card type</td></tr>
 <tr><td><b>Heimdall</b>, Guardian of the Worlds</td><td>+1 Hero, and this round every cost involving a tag ${tagsIcons()} is reduced by 1.</td><td>2 × different tags</td></tr>
@@ -87,7 +87,7 @@ function rulesHTML_fr(){return`<div class="rl notr"><h2>📜 Ragnarök — Règl
 <p><b>Mulligan :</b> une fois par partie, avant de choisir ta carte, tu peux défausser tes 4 cartes et en piocher 4 nouvelles.</p>
 <h3>4. Les dieux</h3><table><tr><th>Dieu</th><th>Pouvoir quand il est joué</th><th>Carte de score</th></tr>
 <tr><td><b>Baldr</b>, Dieu de la Lumière</td><td>+2 Héros. <b>Lumineux</b> : une fois Baldr dans ton Valhalla, une fois par tour, avant de combattre ou de protéger : avec 1+ Gloire, gagne 2 Héros ; avec 3+ Gloire, bats gratuitement une Créature accessible non Élite ; avec 5+ Gloire, une Élite aussi.</td><td>5 × série complète Personnage + Objet + Événement</td></tr>
-<tr><td><b>Freyja</b>, Cheffe des Valkyries</td><td>+1 Héros, et selon tes Personnages au Valhalla : 1+ → +1 Héros, 2+ → +1 Attaque, 3+ → déverrouillage (attaquer n’importe quelle Créature).</td><td>5 × série complète Géant + Bête + Mort-vivant</td></tr>
+<tr><td><b>Freyja</b>, Déesse de l’Amour</td><td>+1 Héros, et selon tes Personnages au Valhalla : 1+ → +1 Héros, 2+ → +1 Attaque, 3+ → déverrouillage (attaquer n’importe quelle Créature).</td><td>5 × série complète Géant + Bête + Mort-vivant</td></tr>
 <tr><td><b>Freyr</b>, Dieu de la Prospérité</td><td>+1 Héros et <b>Prospérité</b> : place jusqu’à 5 Héros sur ta carte de score ; à la fin de ton tour, reprends-les et gagnes-en autant.</td><td>2 × Héros restants (max 6)</td></tr>
 <tr><td><b>Frigg</b>, Reine des Ases</td><td><b>Métier à tisser</b> : gagne 2 Héros, ou remets gratuitement une de tes cartes bannies dans ton Valhalla.</td><td>4 × ton type de carte le plus nombreux</td></tr>
 <tr><td><b>Heimdall</b>, Gardien des Mondes</td><td>+1 Héros, et cette manche tout coût lié à un tag ${tagsIcons()} est réduit de 1.</td><td>2 × tags différents</td></tr>
