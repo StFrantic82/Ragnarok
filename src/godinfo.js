@@ -43,6 +43,7 @@ function godInfo(g){const I=GODINFO[g];if(!I)return'';const lg=typeof LANG!='und
  const K=fr?' :':':',L=it?{p:'Potere',s:'Carta punteggio',st:'Inizio',h:'Eroi',dk:'Mazzo',tip:'Consiglio',c:'Personaggi',i:'Oggetti',e:'Eventi'}:fr?{p:'Pouvoir',s:'Carte de score',st:'Départ',h:'Héros',dk:'Deck',tip:'Conseil',c:'Personnages',i:'Objets',e:'Événements'}:{p:'Power',s:'Scoring card',st:'Start',h:'Heroes',dk:'Deck',tip:'Tip',c:'Characters',i:'Items',e:'Events'};
  return`<div class="hm-info notr" style="margin:14px 0 4px;background:var(--card);border:1px solid var(--bd);border-left:5px solid var(--ac);border-radius:12px;padding:12px 16px;line-height:1.45">
  <div style="display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:6px"><b style="font:700 20px Cinzel,Georgia,serif">${g}</b><i style="opacity:.8">${it&&typeof IT_EXACT!='undefined'?IT_EXACT[GODNICK[g]]||GODNICK[g]:fr&&typeof FR_EXACT!='undefined'?FR_EXACT[GODNICK[g]]||GODNICK[g]:GODNICK[g]}</i>
- <span class=m>${addIcons(`${L.st}${K} ${d.h} ${L.h} · ${L.dk}${K} ${ty.C} ${L.c}, ${ty.I} ${L.i}, ${ty.E} ${L.e}`)}</span></div>
+ <span class=m>${L.st}${K} ${d.h} ${tagIco('h')}</span></div>
+ <div class=m style="margin:-2px 0 6px">${L.dk}${K} ${ty.C} ${tagIco('Character')}, ${ty.I} ${tagIco('Item')}, ${ty.E} ${tagIco('Event')}</div>
  <div><b>${L.p} — ${t[0]}${K}</b> ${addIcons(t[1])}</div><div><b>${L.s}${K}</b> ${addIcons(t[2])}</div><div style="margin-top:4px"><b>💡 ${L.tip}${K}</b> ${addIcons(t[3])}</div></div>`}
 </script>
