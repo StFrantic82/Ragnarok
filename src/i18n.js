@@ -1,8 +1,8 @@
 <script>
-// ===== Langue : anglais / français (traduction de l'interface à l'affichage) =====
+// ===== Langue : anglais / français / italien (traduction de l'interface à l'affichage) =====
 var LANG='en';try{LANG=localStorage.getItem('rg_lang')||'en'}catch(e){}
 function setLang(l){LANG=l;try{localStorage.setItem('rg_lang',l)}catch(e){}langCss();R()}
-function langCss(){try{document.documentElement.style.setProperty('--seltxt',LANG=='fr'?"'✓ Choisi'":"'✓ Selected'");document.documentElement.lang=LANG}catch(e){}}langCss();
+function langCss(){try{document.documentElement.style.setProperty('--seltxt',LANG=='fr'?"'✓ Choisi'":LANG=='it'?"'✓ Scelto'":"'✓ Selected'");document.documentElement.lang=LANG}catch(e){}}langCss();
 // Phrases complètes (texte exact, sans espaces autour)
 const FR_EXACT={
 'CHOOSE YOUR GOD':'CHOISIS TON DIEU','PLAY SOLO':'JOUER EN SOLO','PLAY ONLINE':'JOUER EN LIGNE','Play against the AI':'Jouer contre l’IA','Play with friends from home (2 to 4 players)':'Jouer avec des amis depuis chez vous (2 à 4 joueurs)','AI opponents':'Adversaires IA','Loki expansion':'Extension Loki','Your nickname (for stats)':'Ton pseudo (pour les stats)','Anonymous':'Anonyme','PLAY':'JOUER','Off':'Non','🐍 On':'🐍 Oui',
@@ -111,23 +111,23 @@ function frNames(){if(FR_NAMES)return FR_NAMES;const s=new Set(Object.keys(DK));
  ['Valhalla','Loki','RAGNARÖK','RAGNAROK-GAME:'].forEach(x=>s.add(x));
  FR_NAMES=[...s].filter(x=>x&&x.length>2).sort((a,b)=>b.length-a.length);return FR_NAMES}
 const frEsc=x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');let FR_NRX=null;
-function trFR(t){const m=t.match(/^(\s*)([\s\S]*?)(\s*)$/),pre=m[1],core=m[2],post=m[3];if(!core)return t;
- if(FR_EXACT[core]!=null)return pre+FR_EXACT[core]+post;
+function trFR(t){const m=t.match(/^(\s*)([\s\S]*?)(\s*)$/),pre=m[1],core=m[2],post=m[3];if(!core)return t;const IT=LANG=='it'&&typeof IT_EXACT!='undefined',EX=IT?IT_EXACT:FR_EXACT,RXS=IT?IT_RX:FR_RX;
+ if(EX[core]!=null)return pre+EX[core]+post;
  const N=frNames();if(N.includes(core))return t;
- let s=core;for(const [r,f] of FR_RX){if(!r.global&&r.test(s)){s=s.replace(r,f);break}}
- for(const [r,f] of FR_RX){if(r.global&&!r.post)s=s.replace(r,f)}
+ let s=core;for(const [r,f] of RXS){if(!r.global&&r.test(s)){s=s.replace(r,f);break}}
+ for(const [r,f] of RXS){if(r.global&&!r.post)s=s.replace(r,f)}
  if(!FR_NRX)FR_NRX=new RegExp(N.map(frEsc).join('|'),'g');
  const keep=[];s=s.replace(FR_NRX,x=>{keep.push(x);return'\u0001'+(keep.length-1)+'\u0002'});
- for(const [r,f] of FR_RX){if(r.global&&r.post)s=s.replace(r,f)}
+ for(const [r,f] of RXS){if(r.global&&r.post)s=s.replace(r,f)}
  s=s.replace(/\u0001(\d+)\u0002/g,(_,i)=>keep[+i]);return pre+s+post}
 const FR_DONE=new WeakMap();
-function translateNode(root){if(LANG!='fr'||!root)return;
+function translateNode(root){if(LANG=='en'||!root)return;
  const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;const L=[];while(n=tw.nextNode())L.push(n);
  L.forEach(n=>{const p=n.parentElement;if(!p||p.closest('script,style,textarea,.notr'))return;const v=n.nodeValue;if(!/[A-Za-z]/.test(v)||FR_DONE.get(n)===v)return;const t=trFR(v);if(t!==v)n.nodeValue=t;FR_DONE.set(n,n.nodeValue)});
- (root.querySelectorAll?root.querySelectorAll('[title],[placeholder]'):[]).forEach(e=>['title','placeholder'].forEach(a=>{const v=e.getAttribute(a);if(v&&/[A-Za-z]/.test(v)&&!e.dataset['fr'+a]){const t=trFR(v);e.setAttribute(a,t);e.dataset['fr'+a]='1'}}))}
+ (root.querySelectorAll?root.querySelectorAll('[title],[placeholder]'):[]).forEach(e=>['title','placeholder'].forEach(a=>{const v=e.getAttribute(a);if(v&&/[A-Za-z]/.test(v)&&e.dataset['tr'+a]!==LANG){const t=trFR(v);e.setAttribute(a,t);e.dataset['tr'+a]=LANG}}))}
 (()=>{const RR=R;R=function(){const r=RR.apply(this,arguments);try{translateNode(document.getElementById('app'))}catch(e){}return r};
- try{const mo=new MutationObserver(ms=>{if(LANG!='fr')return;ms.forEach(m=>{m.addedNodes.forEach(x=>{if(x.nodeType==3){const p=x.parentElement;if(p)translateNode(p)}else if(x.nodeType==1)translateNode(x)})})});
+ try{const mo=new MutationObserver(ms=>{if(LANG=='en')return;ms.forEach(m=>{m.addedNodes.forEach(x=>{if(x.nodeType==3){const p=x.parentElement;if(p)translateNode(p)}else if(x.nodeType==1)translateNode(x)})})});
   const go=()=>{const a=document.getElementById('app');if(a)mo.observe(a,{childList:true,subtree:true})};if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',go);else go()}catch(e){}})();
-function langSwitch(){return`<div class=notr style="position:absolute;top:10px;right:12px;z-index:5;display:flex;gap:4px;background:rgba(255,255,255,.75);border-radius:999px;padding:3px">${[['en','🇬🇧 EN'],['fr','🇫🇷 FR']].map(([k,l])=>`<button onclick="setLang('${k}')" style="border-radius:999px;padding:4px 10px;font-size:13px;${LANG==k?'background:var(--ac);color:#fff':'background:transparent;color:#333'}">${l}</button>`).join('')}</div>`}
+function langSwitch(){return`<div class=notr style="position:absolute;top:10px;right:12px;z-index:5;display:flex;gap:4px;background:rgba(255,255,255,.75);border-radius:999px;padding:3px">${[['en','🇬🇧 EN'],['fr','🇫🇷 FR'],['it','🇮🇹 IT']].map(([k,l])=>`<button onclick="setLang('${k}')" style="border-radius:999px;padding:4px 10px;font-size:13px;${LANG==k?'background:var(--ac);color:#fff':'background:transparent;color:#333'}">${l}</button>`).join('')}</div>`}
 try{if(!S)R()}catch(e){}
 </script>

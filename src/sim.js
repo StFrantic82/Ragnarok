@@ -2,7 +2,7 @@
 // ===== Simulateur de parties IA contre IA + statistiques et matchups =====
 const SIM={mode:'random',n:100,np:3,per:20,loki:false,run:false,done:0,total:0,t0:0,res:null,mx:null,last:null};
 const simFr=()=>typeof LANG!='undefined'&&LANG=='fr';
-const ST=(en,fr)=>simFr()?fr:en;
+const ST=(en,fr)=>simFr()?fr:(typeof LANG!='undefined'&&LANG=='it'&&typeof itT=='function')?itT(en):en;
 function simOne(gods,np){ // gods: [g0,g1] pour un matchup, ou null pour des dieux au hasard
  const saveR=R,saveS=S,saveL=LOKI_ON;let out=null;R=function(){};LOKI_ON=SIM.loki;
  try{

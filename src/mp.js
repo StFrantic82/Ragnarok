@@ -3,7 +3,7 @@
 const MP_FNS=['pick','put','ban','fightClick','protect','lumClick','lumHeroes','done','mulligan','odinChoose','friggSetup','fOrder','friggH2','friggLoom','invest','lokiVbanH','lokiDiscH'];
 const MP={on:false,host:false,stage:'menu',seat:0,code:'',players:[],loki:false,err:'',exec:false,net:null,conn:null,token:'',god:null,started:false,lost:false,busy:false};
 const MP_ORIG={};
-const MPT=(en,fr)=>typeof LANG!='undefined'&&LANG=='fr'?fr:en;
+const MPT=(en,fr)=>typeof LANG=='undefined'?en:LANG=='fr'?fr:(LANG=='it'&&typeof itT=='function')?itT(en):en;
 const MP_TEST=typeof location!='undefined'&&/mptest/.test(location.search);
 const MP_OK=MP_TEST||(typeof location!='undefined'&&(/github\.io$/.test(location.hostname)||/^(localhost|127\.0\.0\.1)$/.test(location.hostname)));
 const MP_URL='https://stfrantic82.github.io/Ragnarok/';
@@ -140,7 +140,7 @@ function renderMP(A){let h=`<div class="hm notr" style="text-align:left;max-widt
   <button class=hm-sec onclick="mpCopy(MP.code,this)">📋 ${MPT('Copy code','Copier le code')}</button> <button class=hm-sec onclick="mpCopy(mpLink(),this)">🔗 ${MPT('Copy invitation link','Copier le lien d’invitation')}</button></div>
   <h3>${MPT('Players','Joueurs')} (${P.length}/${MP_MAX})</h3><div>${P.map((p,i)=>`<div class=p style="display:flex;align-items:center;gap:10px;margin:4px 0;${i==MP.seat?'border:2px solid var(--ac)':''}">${p.god&&IMG[p.god+'|S']?`<img src="${IMG[p.god+'|S']}" height=36 style="border-radius:4px">`:'<span style="font-size:24px">❔</span>'}<b>${esc(p.name)}</b>${i==0?` <span class=m>(${MPT('host','hôte')})</span>`:''}${i==MP.seat?` <span class=m>(${MPT('you','toi')})</span>`:''}<span style="margin-left:auto">${p.online?'':'🔌 '+MPT('offline','déconnecté')+' · '}${p.god?esc(p.god):'<i class=m>'+MPT('choosing a god…','choisit un dieu…')+'</i>'}</span></div>`).join('')}</div>
   <h3>${MPT('Choose your god','Choisis ton dieu')}</h3>${mpGodGrid()}
-  <div class=p><b>🐍 ${MPT('Loki expansion','Extension Loki')} :</b> ${MP.host?`<button ${MP.loki?'style="background:var(--mu)"':''} onclick="MP.loki=false;mpBroadcast();R()">${MPT('Off','Non')}</button><button ${MP.loki?'':'style="background:var(--mu)"'} onclick="MP.loki=true;mpBroadcast();R()">${MPT('On','Oui')}</button>`:(MP.loki?MPT('On','Oui'):MPT('Off','Non'))}</div>
+  <div class=p><b>🐍 ${MPT('Loki expansion','Extension Loki')} :</b> ${MP.host?`<button ${MP.loki?'style="background:var(--mu)"':''} onclick="MP.loki=false;mpBroadcast();R()">${MPT('Off','Non')}</button><button ${MP.loki?'':'style="background:var(--mu)"'} onclick="MP.loki=true;mpBroadcast();R()">${MPT('On','Oui')}</button>`:(MP.loki?MPT('On','Oui'):MPT('Off','Non'))}</div>${MP.loki&&typeof lokiSummary=='function'?lokiSummary():''}
   ${MP.host?`<p style="text-align:center"><button class=hm-play ${ok?'':'disabled'} onclick="mpStart()">${MPT('START THE GAME','LANCER LA PARTIE')}</button><br><span class=m>${ok?'':P.length<2?MPT('Waiting for at least one other player…','En attente d’au moins un autre joueur…'):MPT('Every player must choose a god.','Chaque joueur doit choisir un dieu.')}</span></p>`:`<p style="text-align:center" class=m>⏳ ${MPT('Waiting for the host to start the game…','En attente du lancement par l’hôte…')}</p>`}</div>`;
  A.innerHTML=h}
 function mpBar(){const v=S,N=i=>{const nm=(v.mpNames||[])[(i+v.mpSeat)%v.ps.length]||'';return esc(v.ps[i].n)+(nm?' ('+esc(nm)+')':'')};

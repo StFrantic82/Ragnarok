@@ -25,7 +25,7 @@ Document de reprise du projet pour une nouvelle discussion avec Claude. Il résu
 
 ## 2. Préférences de l'auteur (à respecter)
 
-- **Langue :** l'auteur écrit en français. L'app existe en **anglais et en français** (sélecteur EN/FR en haut de l'accueil) : toute nouvelle interface doit être traduite dans les deux langues.
+- **Langue :** l'auteur écrit en français. L'app existe en **anglais, français et italien** (sélecteur EN/FR/IT en haut de l'accueil, italien ajouté le 21 novembre) : toute nouvelle interface doit être traduite dans les trois langues. Italien : `i18n_it.js` (dictionnaire `IT_EXACT`, motifs `IT_RX`, textes `IT_UI` pour le multijoueur et le simulateur, règles `rulesHTML_it`/`turnHTML_it`), plus les entrées `it` des fiches des dieux (`godinfo.js`) et du tutoriel (`tutorial.js`). Vocabulaire italien : Eroi, Creature (Giganti, Bestie, Non morti), Mondi, Attacchi, Élite, round (manche) / turno (tour), bandire, carta punteggio.
 - **Vocabulaire du jeu :** Héros, Créatures, Mondes, Attaques, Élites avec une majuscule. On dit **« tags »** (et non sous-types) pour Animal, Artefact, Destin (Destiny), Équipement (Equipment), Gloire (Glory), Guerrier (Warrior).
 - **Icônes :** dans les textes d'aide (tutoriel, fiches des dieux, règles), mettre l'icône du jeu juste après le mot clé : Héros, Créatures (Géant, Bête, Mort-vivant), Mondes, Élite, tags, types de carte, Attaque. Les icônes restent carrées (18 × 18 px).
 - **Tags par ordre alphabétique** dans les compteurs : Animal, Artefact, Destiny, Equipment, Glory, Warrior.
@@ -116,6 +116,7 @@ Liste des 15 Loki en annexe B.
 - **En jeu :** Héros et Attaques au-dessus de la main, coûts au milieu des cartes, zone de droite (score, compteurs, Valhalla, Créatures, Mondes, bannies, Loki), récapitulatif des adversaires, bouton ↩ Annuler (dernier clic), bouton Accueil.
 - **Fin de partie :** enregistrement (version Claude), « Copier le résumé de la partie », « Rejouer avec le même dieu ».
 - **Statistiques (version Claude) :** tableau par dieu (cliquer pour voir le % de chaque carte au Valhalla), filtre humains/tous, modes Jeu de base / Avec Loki / Tout, import des résumés envoyés par les testeurs, réinitialisation.
+- **Extension Loki :** quand on l'active (accueil ou salon en ligne), un encadré vert résume la règle (`lokiSummary()` dans `home.js`, EN/FR/IT).
 - **Simulateur :** parties au hasard (50 à 1 000 parties, 2 à 4 joueurs, Loki oui/non) ou matchups 1 contre 1 (tableau croisé). Rien n'est enregistré.
 - **Multijoueur en ligne (`mp.js`, 21 novembre) :** sur l’accueil, deux boutons identiques côte à côte : « Play solo » et « Play online ». Un joueur crée un salon (code de 4 lettres, lien `#join-CODE`), 2 à 4 humains sans IA, chacun un dieu différent, Loki au choix de l'hôte.
   - Réseau pair-à-pair avec PeerJS 1.5.4 (chargé depuis unpkg, sinon jsdelivr), identifiant `ragnarok-mp-CODE`. Fonctionne uniquement sur GitHub Pages (et localhost) : l'artefact Claude bloque WebRTC et affiche un lien vers GitHub Pages.

@@ -56,7 +56,7 @@ function turnHTML(){const st=(n,t,b)=>`<div class=step><div class=n>${n}</div><d
  <tr><th>Freed World</th><td>One side with no Creature left → the World is freed and replaced. Protect it: threshold − your matching symbols − reductions.</td></tr>
  <tr><th>Scoring</th><td>Valhalla + Creatures + Worlds + scoring card (+ Loki). Tie: most Heroes left.</td></tr>
  <tr><th>🐍 Loki</th><td>1 at the start, +1 per freed World. 4 in play = everyone loses. Instant / Ongoing / When defeated.</td></tr></table></div>`}
-function renderRules(A){const fr=typeof LANG!='undefined'&&LANG=='fr';A.innerHTML=RULES_CSS+rulesNav(VIEW)+(VIEW=='turn'?(fr?turnHTML_fr():turnHTML()):(fr?rulesHTML_fr():rulesHTML()))}
+function renderRules(A){const lg=typeof LANG!='undefined'?LANG:'en',fr=lg=='fr',it=lg=='it'&&typeof rulesHTML_it=='function';A.innerHTML=RULES_CSS+rulesNav(VIEW)+(VIEW=='turn'?(it?turnHTML_it():fr?turnHTML_fr():turnHTML()):(it?rulesHTML_it():fr?rulesHTML_fr():rulesHTML()))}
 (()=>{const RR=R;R=function(){if(!S&&(VIEW=='rules'||VIEW=='turn')){renderRules(document.getElementById('app'));return}return RR.apply(this,arguments)}})();
 </script>
 <script>
