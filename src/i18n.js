@@ -5,7 +5,7 @@ function setLang(l){LANG=l;try{localStorage.setItem('rg_lang',l)}catch(e){}langC
 function langCss(){try{document.documentElement.style.setProperty('--seltxt',LANG=='fr'?"'✓ Choisi'":"'✓ Selected'");document.documentElement.lang=LANG}catch(e){}}langCss();
 // Phrases complètes (texte exact, sans espaces autour)
 const FR_EXACT={
-'CHOOSE YOUR GOD':'CHOISIS TON DIEU','🌐 Online multiplayer':'🌐 Multijoueur en ligne','AI opponents':'Adversaires IA','Loki expansion':'Extension Loki','Your nickname (for stats)':'Ton pseudo (pour les stats)','Anonymous':'Anonyme','PLAY':'JOUER','Off':'Non','🐍 On':'🐍 Oui',
+'CHOOSE YOUR GOD':'CHOISIS TON DIEU','PLAY SOLO':'JOUER EN SOLO','PLAY ONLINE':'JOUER EN LIGNE','Play against the AI':'Jouer contre l’IA','Play with friends from home (2 to 4 players)':'Jouer avec des amis depuis chez vous (2 à 4 joueurs)','AI opponents':'Adversaires IA','Loki expansion':'Extension Loki','Your nickname (for stats)':'Ton pseudo (pour les stats)','Anonymous':'Anonyme','PLAY':'JOUER','Off':'Non','🐍 On':'🐍 Oui',
 '👀 Watch AI vs AI':'👀 Regarder IA contre IA','📊 Game statistics':'📊 Statistiques','📜 Rules':'📜 Règles','🧭 Turn summary':'🧭 Résumé du tour','✓ Selected':'✓ Choisi','(prototype)':'(prototype)',
 'Face the creatures · Save the Worlds · Earn your place in Valhalla':'Affronte les Créatures · Sauve les Mondes · Gagne ta place au Valhalla',
 'A Loki card appears at the start and each time a World is freed. 4 Loki in play = everyone loses.':'Une carte Loki apparaît au début puis à chaque Monde libéré. 4 Loki en jeu = tout le monde perd.',

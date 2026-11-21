@@ -29,6 +29,7 @@
 .hm-play{font-family:'Cinzel',Georgia,serif;font-weight:900;font-size:20px;letter-spacing:.12em;padding:14px 46px;margin:28px 0 10px;border-radius:14px;
  background:linear-gradient(180deg,#e0ad62,#9c6427);color:#1d1408;box-shadow:0 8px 20px rgba(156,100,39,.45);transition:transform .12s}
 .hm-play:hover{transform:translateY(-2px) scale(1.02)}
+.hm-plays{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:28px 0 10px}.hm-plays .hm-play{margin:0;flex:0 1 270px;padding:14px 18px;white-space:nowrap}
 .hm-sec{background:none;color:var(--ac);border:1px solid var(--bd);border-radius:10px;padding:8px 16px}
 </style>
 <script>
@@ -48,7 +49,7 @@ function renderHome(A){const gods=Object.keys(DK).sort((a,b)=>a.localeCompare(b)
   <div><label>Loki expansion</label><div class=hm-seg><button class="${LOKI_ON?'':'on'}" onclick="LOKI_ON=false;R()">Off</button><button class="${LOKI_ON?'on':''}" onclick="LOKI_ON=true;R()" title="A Loki card appears at the start and each time a World is freed. ${LOKI_MAX} Loki in play = everyone loses.">🐍 On</button></div></div>
   <div><label>Your nickname (for stats)</label><input id=ps maxlength=30 placeholder="Anonymous" value="${esc(PSEUDO)}" onchange="setPseudo(this.value)"></div>
  </div>
- <button class=hm-play onclick="setPseudo(document.getElementById('ps').value);newGame(HOME.god,HOME.n);R();scrollTo(0,0)">PLAY</button><br>
+ <div class=hm-plays><button class=hm-play onclick="setPseudo(document.getElementById('ps').value);newGame(HOME.god,HOME.n);R();scrollTo(0,0)" title="Play against the AI">PLAY SOLO</button><button class=hm-play onclick="mpOpen()" title="Play with friends from home (2 to 4 players)">PLAY ONLINE</button></div>
  <button class=hm-sec onclick="watchGame(HOME.god,HOME.n+1)">👀 Watch AI vs AI</button> <button class=hm-sec onclick="VIEW='sim';R();scrollTo(0,0)">🤖 AI simulations</button> <button class=hm-sec onclick="startTutorial()" style="border-color:var(--ac);font-weight:700">🎓 Tutorial</button> <button class=hm-sec onclick="openStats()">📊 Game statistics</button> <button class=hm-sec onclick="VIEW='rules';R();scrollTo(0,0)">📜 Rules</button> <button class=hm-sec onclick="VIEW='turn';R();scrollTo(0,0)">🧭 Turn summary</button>
  </div>`}
 const _R3=R;R=function(){if(!S&&VIEW!='stats'){renderHome(document.getElementById('app'));return}_R3()};

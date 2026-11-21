@@ -159,8 +159,7 @@ mpInstall();
  const RR=R;R=function(){if(MP.exec)return;if(!S&&VIEW=='mp'){renderMP(document.getElementById('app'));return}
   if(MP.on&&S&&S.mp){if(MP.host){const real=S;S=mpView(0);try{RR()}finally{S=real}}else RR();
    if(MP.host){const real=S;S=mpView(0);try{mpDecorate()}finally{S=real}}else mpDecorate();return}
-  RR();
-  if(!S&&VIEW!='stats'&&VIEW!='sim'&&VIEW!='rules'&&VIEW!='turn'){const A=document.getElementById('app'),b=A&&A.querySelector('.hm-play');if(b&&!A.querySelector('#mpopen'))b.insertAdjacentHTML('afterend',`<br><button id=mpopen class=hm-sec onclick="mpOpen()" style="border-color:#3a6ea5;font-weight:700">🌐 Online multiplayer</button>`)}};
+  RR();};
  window.addEventListener('beforeunload',()=>{try{if(MP.on&&MP.host)MP.players.forEach(p=>p.conn&&p.conn.send({t:'closed'}))}catch(e){}});
  try{if(/^#join-[A-Za-z]{4}$/.test(location.hash||'')){VIEW='mp';MP.stage='menu'}}catch(e){}
  window.addEventListener('hashchange',()=>{if(/^#join-[A-Za-z]{4}$/.test(location.hash||'')&&!MP.on&&!S){VIEW='mp';MP.stage='menu';R()}});
