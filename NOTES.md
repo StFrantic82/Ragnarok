@@ -301,13 +301,13 @@ Gerda|C||2|Giant&Giant||
 Skírnir|C|Warrior+Warrior|4|Atk|4|2/-1/Artefact
 Byggvir|C||2||2/Warrior|1/Character
 Beyla|C||1||1/Artefact|1/Hero3
-Gerðr|C|Destiny|5|Item&Item&Event&Event|2/Destiny|1
+Freyfaxi|C|Destiny|5|Item&Item&Event&Event|2/Destiny|1
 Skíðblaðnir|I|Artefact|4|World&World|2/World|2
 Sword of Freyr|I|Equipment|4|Elite&Elite|1/Elite|1/Elite
 Freyr's Antler|I|Artefact|4|Undead&Undead|2|1
 Cult of Uppsala|E|Artefact|2|Inv2||1/Hero3
 Skírnir's Journey|E|Destiny|2|Unl|2/Artefact|
-The Wooing of Gerðr|E|Destiny|1||1/Destiny|Atk
+Duel with Surtr|E|Destiny|1||1/Destiny|Atk
 
 Bragi (en préparation, hors de l'app — départ 5, score 3/pairs)
 Bragi|G||0|||bragi
