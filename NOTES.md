@@ -53,6 +53,14 @@ L'app est un seul fichier HTML (`index.html`, à la racine du dépôt) assemblé
 12. `mp.js` : multijoueur en ligne (voir section 5).
 13. `i18n.js` : traduction FR de l'interface à l'affichage (dictionnaire exact et motifs), choix de langue mémorisé.
 
+**IA (refonte du 26 novembre, `ai.js`) :**
+- Copie d'état rapide (`fclone` : les cartes sont partagées, le journal n'est pas copié) et évaluation des combats sans copie (`tryHit`, `bestProtect`) : parties IA environ 4 fois plus rapides à IA égale.
+- Choix de la carte mise de côté : les 2 meilleures options sont rejouées en simulation sur **2 manches d'avance** (2 tirages de main chacune) avant de décider (`refine`, options `XDEF` : `la`, `D`, `top`, `lak`).
+- L'IA ne connaît plus l'ordre des pioches cachées quand elle anticipe (`fog`) ; avec 2 Loki en jeu elle compte le risque « The Shapeshifter » (`_lkRisk`).
+- Elle ne protège plus un Monde quand son évaluation dit que ça ne vaut pas le coût (`nopf`).
+- Mesures (parties appariées à 3, nouvelle IA contre ancienne) : +4 à +5 PV par partie, 39-40 % de victoires contre 27 % ; à 4 joueurs +5 PV, à 2 joueurs +3 PV. Avec Loki : niveau égal à l'ancienne, qui trichait en voyant le prochain Loki (la même IA « tricheuse » gagnerait +3,5 PV). Les poids `AIW_DEFAULT` ont été testés un par un : aucun changement net, ils restent identiques.
+- Banc d'essai : `src/aitest/ab.js` (`node ab.js N graine '{"x":{...}}' '{"x":{...}}' [joueurs] [loki]`) compare deux variantes sur des parties appariées.
+
 **Pour les simulations hors navigateur :** `python3 src/mkengine.py`, puis par exemple `node src/sim2.js 300 3`. `mkengine.py` crée `engine.js` (base, puis ai, loki et bragi) pour Node. `bench.js` expose `play()`, et `sim2.js`, `simL.js`, `simB.js`, `simv.js` servent aux statistiques.
 
 **Format d'une carte** (dans `DK[dieu].c`, une ligne par carte) : `nom|type|tag|coût|bonus Valhalla|PV|effet`
