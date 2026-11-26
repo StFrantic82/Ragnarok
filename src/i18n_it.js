@@ -122,7 +122,7 @@ function rulesHTML_it(){return`<div class="rl notr"><h2>📜 Ragnarök — Regol
 <div class=box><b>Scopo del gioco.</b> Impersoni un dio di Asgard e affronti le Creature del Ragnarök per 7 round. Manda carte nel Valhalla, sconfiggi Creature e proteggi i Mondi per totalizzare più Punti Vittoria (PV) possibile. Gli Eroi sono la moneta del gioco: li guadagni con le tue carte e li spendi per tutto il resto.</div>
 <h3>1. Preparazione</h3><ul>
 <li>Ogni giocatore sceglie un dio e prende il suo mazzo di 13 carte (la carta dio + 12 carte) e la sua carta punteggio. Mescola il tuo mazzo e pesca <b>4 carte</b>.</li>
-<li>Ogni giocatore inizia con il numero di Eroi indicato sulla sua carta punteggio (Baldr 4, Freyja 4, Odin 4, Tyr 4, Freyr 3, Frigg 2, Heimdall 2, Thor 2).</li>
+<li>Ogni giocatore inizia con il numero di Eroi indicato sulla sua carta punteggio (Baldr 4, Freyja 4, Odin 4, Tyr 4, Freyr 2, Frigg 2, Heimdall 2, Thor 2).</li>
 <li>Mescola le Creature e i Mondi. Forma <b>3 file</b>: un Mondo al centro con <b>2 Creature per lato</b>.</li>
 <li><b>Frigg</b> si prepara in modo diverso: pesca 2 carte (non Frigg), bandiscine una (+2 Eroi), rimescola l’altra nel mazzo, poi pesca 4 carte.</li></ul>
 <h3>2. Le carte</h3><ul>
