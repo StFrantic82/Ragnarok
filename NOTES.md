@@ -2,7 +2,7 @@
 
 Document de reprise du projet pour une nouvelle discussion avec Claude. Il résume l'état de l'app, les règles telles qu'elles sont codées, les décisions de design, les derniers résultats d'équilibrage et la marche à suivre pour mettre à jour l'app.
 
-État au 21 novembre 2026.
+État au 28 novembre 2026. Pour reprendre : lire ce fichier, puis les sections 6 (équilibrage) et 8 (travaux en cours).
 
 ---
 
@@ -45,13 +45,13 @@ L'app est un seul fichier HTML (`index.html`, à la racine du dépôt) assemblé
 4. `loki.js` : extension Loki.
 5. `track.js` : enregistrement des parties, apprentissage, statistiques, zone de droite, mode IA contre IA, résumé à copier et import.
 6. `home.js` : page d'accueil.
-7. `rules.js` : règles complètes et résumé du tour (EN et FR).
-8. `godinfo.js` : fiches des dieux au survol (EN/FR) et helpers d'icônes de tags.
+7. `rules.js` : règles complètes et résumé du tour (EN et FR ; l'italien est dans `i18n_it.js`).
+8. `godinfo.js` : fiches des dieux au survol (EN/FR/IT) et helpers d'icônes de tags. Ligne « Départ : n 🪓 » puis ligne « Deck : n 🟦, n 🟨, n 🟥 », en icônes seulement (26 novembre).
 9. `undo.js` : bouton Annuler le dernier clic.
 10. `tutorial.js` : tutoriel guidé avec Thor.
 11. `sim.js` : simulateur IA contre IA (statistiques par dieu et matchups).
 12. `mp.js` : multijoueur en ligne (voir section 5).
-13. `i18n.js` : traduction FR de l'interface à l'affichage (dictionnaire exact et motifs), choix de langue mémorisé.
+13. `i18n_it.js` puis `i18n.js` : traduction FR et IT de l'interface à l'affichage (dictionnaires exacts et motifs), choix de langue mémorisé.
 
 **IA (refonte du 26 novembre, `ai.js`) :**
 - Copie d'état rapide (`fclone` : les cartes sont partagées, le journal n'est pas copié) et évaluation des combats sans copie (`tryHit`, `bestProtect`) : parties IA environ 4 fois plus rapides à IA égale.
@@ -120,7 +120,7 @@ Liste des 15 Loki en annexe B.
 
 ## 5. Fonctionnalités de l'app
 
-- **Accueil :** choix du dieu (fiche au survol), 1 à 3 IA, Loki oui/non, pseudo, langue EN/FR, Jouer, Regarder IA contre IA, 🤖 Simulations IA, 🎓 Tutoriel, Statistiques, Règles, Résumé du tour.
+- **Accueil :** choix du dieu (fiche au survol), 1 à 3 IA, Loki oui/non, pseudo, langue EN/FR/IT, boutons « Play solo » et « Play online », Regarder IA contre IA, 🤖 Simulations IA, 🎓 Tutoriel, Statistiques, Règles, Résumé du tour.
 - **En jeu :** Héros et Attaques au-dessus de la main, coûts au milieu des cartes, zone de droite (score, compteurs, Valhalla, Créatures, Mondes, bannies, Loki), récapitulatif des adversaires, bouton ↩ Annuler (dernier clic), bouton Accueil.
 - **Fin de partie :** enregistrement (version Claude), « Copier le résumé de la partie », « Rejouer avec le même dieu ».
 - **Statistiques (version Claude) :** tableau par dieu (cliquer pour voir le % de chaque carte au Valhalla), filtre humains/tous, modes Jeu de base / Avec Loki / Tout, import des résumés envoyés par les testeurs, réinitialisation.
@@ -134,28 +134,32 @@ Liste des 15 Loki en annexe B.
 
 ---
 
-## 6. Derniers résultats d'équilibrage (simulations IA, 3 joueurs)
+## 6. Derniers résultats d'équilibrage (nouvelle IA, 26 novembre)
 
-**Sans Loki** (environ 650 parties par dieu, avec Odin à 4 Héros) :
+Version du jeu : Odin 4, Baldr 4, Freyr 2 Héros. Environ 300 parties par dieu et par colonne, marge d'environ ±1 PV et ±3 points de victoires.
 
-| Dieu | PV moyens | Victoires (33 % = juste) |
-|---|---|---|
-| Freyr | 88,3 | 44 % |
-| Baldr | 88,0 | 36 % |
-| Thor | 87,8 | 32 % |
-| Freyja | 86,4 | 35 % |
-| Tyr | 85,6 | 32 % |
-| Heimdall | 84,6 | 28 % |
-| Frigg | 83,7 | 29 % |
-| Odin | 82,1 | 30 % |
+| Dieu | 3 joueurs : PV | 3 j : victoires (33 % = juste) | 2 joueurs : PV | 2 j : victoires (50 % = juste) | Loki, 3 j : PV | Loki : victoires |
+|---|---|---|---|---|---|---|
+| Frigg | 91,8 | **42,5 %** | 92,1 | **59,6 %** | 78,4 | **49 %** |
+| Thor | 90,7 | 31,8 % | 89,3 | 46,7 % | 71,4 | 31 % |
+| Baldr | 90,3 | 37,7 % | 86,6 | 45,5 % | 74,3 | 40 % |
+| Heimdall | 88,3 | 30,2 % | 88,3 | 50,8 % | 71,7 | 30 % |
+| Freyr | 88,2 | 38,3 % | 87,4 | 51,1 % | 74,3 | 43 % |
+| Odin | 87,3 | 32,0 % | 87,1 | 47,6 % | 66,8 | 22 % |
+| Tyr | 87,1 | 28,2 % | 88,0 | 50,8 % | 67,1 | 23 % |
+| Freyja | 85,4 | 26,3 % | 87,8 | 47,7 % | 66,8 | 21 % |
+| *Moyenne* | *88,6* | | *88,3* | | *71,3* | |
 
-**Avec Loki :** moyenne 72,9 PV, contre 85,9 sans Loki. Loki ne gagne quasiment jamais contre l'IA, mais la partie se bloque souvent à 3 Loki en jeu.
-- Les moins touchés sont Frigg (−7,5 PV, 38 % de victoires) et Freyr (−10,4 PV, 49 %).
-- Les plus touchés sont Odin (−16,4 PV, 22 %) et Freyja (−16,0 PV, 27 %).
+- 800 parties à 3, 1 200 à 2, 600 à 3 avec Loki. Avec Loki, tout le monde perd dans 2,8 % des parties ; on protège environ 2 fois moins de Mondes, ce qui pénalise Odin.
+- **Frigg est maintenant la plus forte** (6,5 cartes au Valhalla en moyenne grâce aux cartes bannies qui reviennent). Pistes proposées, non testées : carte de score à 3 PV par carte au lieu de 4, ou mise en place sans les +2 Héros.
+- Cartes que l'IA n'envoie presque jamais au Valhalla (tableau du 26 novembre, avant le changement de Freyr) : Gullinbursti 2 %, Beyla 4 %, Cult of Uppsala 10 %, Byggvir 12 % (Freyr) ; Cat #1 6 %, Chariot 10 % (Freyja) ; Goats Resurrection 6 %, Thrud 7 % (Thor) ; Odin's Helmet 11 % ; Mistletoe 11 % (Baldr) ; Fight to the death 13 % (Heimdall) ; Pact of Binding 14 % (Tyr). Cartes « pièges » : quand Wisdom of the Runes (Odin) est au Valhalla, Odin gagne 10 % ; Seal of Sessrúmnir (Freyja) 14 %.
+- Chiffres de l'auteur (outil Simulation de l'app, 1 000 parties à 2, avant le changement de Freyr) : Freyr 62 %, Frigg 51 %, Thor 51 %, Baldr 52 %, Heimdall 52 %, Freyja 47 %, Odin 43 %, Tyr 42 %.
+- Script de stats par dieu et par carte : `node /chemin/stats.js N graine [loki|x] [joueurs]` (à recréer si besoin : boucle sur `play()` de `src/aitest/h.js`, puis `score(p)` et `p.v` pour chaque joueur).
 
 **Décisions prises et pistes en attente :**
 - **Freyr :** départ baissé à 2 Héros le 26 novembre (validé). Avec la nouvelle IA, Freyr dans chaque partie : à 3 Héros 94,2 PV et 45,5 % de victoires à 3 joueurs (60,8 % à 2) ; à 2 Héros 88,4 PV et 33,0 % à 3 joueurs (51,0 % à 2). Autres pistes testées : Freyr ne donne aucun Héros (départ 3) 26,5 % à 3 joueurs ; départ à 1 Héros 29,3 %. Carte de score mise à jour par l'auteur (2 Héros).
-- **Tableau du 26 novembre (nouvelle IA, 800 parties à 3, avant le changement de Freyr) :** Freyr 94,7 PV / 48 %, Frigg 91,2 / 37 %, Baldr 89,0 / 34 %, Thor 88,5 / 31 %, Tyr 87,8 / 31 %, Odin 87,3 / 31 %, Heimdall 87,3 / 27 %, Freyja 85,4 / 28 %. Avec Loki (600 parties) : Frigg 50 % et Freyr 46 % de victoires, Tyr, Odin et Freyja 23-25 %, Loki gagne 1,7 % des parties.
+- **Avant le changement de Freyr (26 novembre, 800 parties à 3) :** Freyr 94,7 PV / 48 %, Frigg 91,2 / 37 %, Baldr 89,0 / 34 %, Thor 88,5 / 31 %, Tyr 87,8 / 31 %, Odin 87,3 / 31 %, Heimdall 87,3 / 27 %, Freyja 85,4 / 28 %.
+- **Anciens chiffres (ancienne IA, 21 novembre) :** Freyr 88,3 / 44 %, Baldr 88,0 / 36 %, Thor 87,8 / 32 %, Freyja 86,4 / 35 %, Tyr 85,6 / 32 %, Heimdall 84,6 / 28 %, Frigg 83,7 / 29 %, Odin 82,1 / 30 %. L'ancienne IA voyait les pioches cachées et jouait plus faiblement : ne pas comparer directement.
 - **Odin :** départ relevé à 4 Héros (validé, carte de score mise à jour par l'auteur).
 - **Baldr :** départ baissé à 4 Héros le 21 novembre (validé). Simulations du 21 novembre, Baldr dans chaque partie à 3 contre des dieux au hasard : à 5 Héros 89,2 PV et 38 % de victoires (500 parties) ; à 4 Héros 85,0 PV et 32,4 % (1 500 parties), pour 85,4 PV chez les adversaires. Autres pistes testées (500 parties) : Lumineux +1 Héros 36 %, seuils de Lumineux à 4/6 Gloire 26 %, coût 7 au Valhalla 32 % (mais Baldr au Valhalla dans 53 % des parties au lieu de 71 %), carte de score à 4 PV par série 40 %. Carte de score mise à jour par l'auteur (4 Héros).
 - **Heimdall :** l'auteur le juge correct, car il marque plus en le jouant lui-même.
@@ -193,6 +197,28 @@ Liste des 15 Loki en annexe B.
 - Thjazi's Eyes (É), Skaði's Revenge (É, Guerrier), Loki's Goat Rope (É), Marriage with Njörd (É), Return to the Mountains (É)
 
 Pour Iðunn, Njörd et Skaði, il reste à définir les coûts, bonus, PV et effets, ainsi que le pouvoir, la carte de score et les Héros de départ. Pistes de thème : Iðunn la récupération de cartes (défausse et bannies), Njörd les Mondes, Skaði la chasse aux Créatures.
+
+---
+
+## 8. Travaux en cours (à reprendre)
+
+**Les 3 Nornes (nouvelle extension, en conception)** — Urd (le passé), Verdandi (le présent), Skuld (l'avenir).
+- Décidé par l'auteur : cartes **recto-verso** pour varier les parties ; elles sont placées au centre de la table (comme Loki, mais avec une autre fonction) ; elles **entrent en jeu à des moments fixes** de la partie, et **chacune reste en jeu jusqu'à l'arrivée de la suivante**, puis est défaussée (une seule Norne active à la fois) ; on forme en début de partie une **petite pioche de 3 cartes face cachée**, sans voir la suivante à l'avance.
+- À trancher : ordre mélangé ou fixe (Urd → Verdandi → Skuld) ; manches d'arrivée (proposition de Claude : 1, 3 et 5, Skuld durant les manches 5 à 7) ; les 6 faces elles-mêmes ; effet qui s'applique à tous ou qu'il faut gagner (payer des Héros, réussir quelque chose).
+- Pistes de faces proposées par Claude (à remplacer par celles de l'auteur) : Urd — bannir rapporte 3 Héros / la carte envoyée au Valhalla coûte 1 de moins ; Verdandi — +1 Attaque pour chacun / 2 Mondes protégés par manche ; Skuld — piocher 5 et défausser 1 / en fin de partie, le plus de Mondes gagne 6 PV. Attention aux faces qui avantagent un dieu (bannir → Frigg, Mondes → Odin).
+- Une fois les faces choisies : les coder dans le moteur et les mesurer au simulateur, face par face et par dieu.
+- **Valkyrie Skuld (deck de Freyja)** sera remplacée par une Valkyrie générique (nom et illustration à fournir par l'auteur ; garder coût, bonus et effet sauf avis contraire). Pour l'instant la carte n'est pas changée dans l'app.
+
+**Équilibrage**
+- Frigg : chiffrer des options (voir section 6).
+- Loki : la règle crée de gros écarts entre dieux (Frigg 49 %, Odin/Tyr/Freyja 21-23 %). Piste : The Mocker envoie à la défausse au lieu des cartes bannies (Frigg profite des cartes bannies).
+- Cartes délaissées : tester −1 de coût pour Gullinbursti, Thrud, Pact of Binding.
+
+**Autres**
+- Faire relire la traduction italienne par un italophone.
+- Illustrations de l'auteur à mettre à jour : la carte de score de Freyja porte encore « Chief of the Valkyries » (le jeu dit maintenant « Goddess of Love »).
+- Nouveaux dieux (section 7) : à reprendre plus tard, à la demande de l'auteur.
+- Multijoueur en ligne : à faire tester par de vrais joueurs à distance. Idée non faite : compléter les places libres d'un salon avec des IA.
 
 ---
 
